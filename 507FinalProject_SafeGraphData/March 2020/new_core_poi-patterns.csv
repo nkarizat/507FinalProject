@@ -1,0 +1,6 @@
+naics_code,safegraph_place_id,location_name,street_address,city,region,postal_code,country,phone,latitude,longitude
+451211,sg:f34c46b91b034e9da77d1e27fbea7050,Books-A-Million,2121 N Monroe St Unit 550,Monroe,MI,48162,US,17342414830,41.947247,-83.388364
+512131,sg:d91931db54f140e69ef17855d3db04c3,Phoenix Theatres,2121 N Monroe St,Monroe,MI,48162,US,,41.947712,-83.388149
+311811,sg:14357ddac8c54e8a8f861d0bf784553e,Nestlé Café,Twelve Oaks Mall 27500 Novi Road,Novi,MI,48377,US,12482894407,42.492027,-83.47014
+512131,sg:4237124b7ce04d90b6b91f25cd1729f5,CRYSTAL by Cirque Du Soleil,2645 Woodward Ave,Detroit,MI,48201,US,,42.341709,-83.054475
+512131,sg:df3f0aabe1b240528937d6badb980fa3,Celebration! Cinema,123 Ionia Ave SW,Grand Rapids,MI,49503,US,,42.960425,-85.670059
