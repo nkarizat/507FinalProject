@@ -139,7 +139,7 @@ def make_request(url,params):
     return response.json()
 
 
-def make_request_with_cache(baseurl, lat,long, max_range='5mi', num_results=100):
+def make_request_with_cache(baseurl, lat,long, max_range='15mi', num_results=200):
     '''Check the cache for a saved result for this baseurl+params:values
     combo. If the result is found, return it. Otherwise send a new 
     request, save it, then return it.
@@ -210,18 +210,28 @@ def clean_tweets(list_of_tweets):
     Returns
     -------
     a list
-        a list of strings of all the tweets in the tweet_data
+        a list of cleaned tokens from all the tweets in the tweet_data
 
     '''
-    # list_wo_handles=[]
-    # for x in list_of_tweets:
-    #     list_of_words=[] """Trying to figure out how to remove words that start with @ so that I can remove twitter handles"
-    #     lists=x.split(" ")
-    #     for word in lists:
-    #         if word[0] == "@":
-    #             print(word)
+    #remove "@" (all twitter handles) from tweets
+    list_wo_handles=[]
+    for x in list_of_tweets:
+        list_of_words=[] 
+        lists=x.split(" ")
+        for word in lists:
+            if "@" not in word:
+                list_of_words.append(word)
+        list_wo_handles.append(list_of_words)
+
+
+    #creates a list of tweets without their handles
+    list_of_tweets_=[]
+    for x in list_wo_handles:
+        list_of_tweets_.append(' '.join(x))
+
+    #creates a list of tokens w/o stopwords, punctuation, as well as certain words like rt, https, http, etc. 
     list_of_tokens=[]
-    for text in list_of_tweets:
+    for text in list_of_tweets_:
         words=nltk.word_tokenize(text.lower())
         S = set(stopwords.words('english'))
         tokens_stop_removed = []
@@ -236,6 +246,7 @@ def clean_tweets(list_of_tweets):
         list_of_tokens.append(words)
     flatList = [ item for elem in list_of_tokens for item in elem]
     string_of_tweets=str(flatList)
+    
     return string_of_tweets
 
 def generate_word_cloud(string_of_tweets):
