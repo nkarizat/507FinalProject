@@ -7,6 +7,22 @@ from requests_oauthlib import OAuth1
 import json
 import requests
 import secrets #file containing my twitter API
+import nltk
+import re
+from nltk.corpus import stopwords
+from collections import Counter
+from nltk.stem import PorterStemmer
+from nltk.stem import 	WordNetLemmatizer
+from nltk.corpus import wordnet as wn
+from nltk.stem.wordnet import WordNetLemmatizer
+from nltk import word_tokenize, pos_tag
+from collections import defaultdict
+import gensim
+import string
+import collections
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+import matplotlib.cm as cm
+import matplotlib.pyplot as plt
 
 CACHE_FILENAME = "tweets_cache.json"
 CACHE_DICT = {}
@@ -123,7 +139,7 @@ def make_request(url,params):
     return response.json()
 
 
-def make_request_with_cache(baseurl, lat,long, max_range='5mi', num_results=200):
+def make_request_with_cache(baseurl, lat,long, max_range='5mi', num_results=100):
     '''Check the cache for a saved result for this baseurl+params:values
     combo. If the result is found, return it. Otherwise send a new 
     request, save it, then return it.
@@ -184,7 +200,50 @@ def compile_tweets(tweet_data):
     return list_of_tweets
 
 def clean_tweets(list_of_tweets):
-    pass
+    ''' creates a list of tweets from dictionary
+
+    Parameters
+    ----------
+    tweet_data: dict
+        Twitter data as a dictionary for a specific query
+
+    Returns
+    -------
+    a list
+        a list of strings of all the tweets in the tweet_data
+
+    '''
+    # list_wo_handles=[]
+    # for x in list_of_tweets:
+    #     list_of_words=[] """Trying to figure out how to remove words that start with @ so that I can remove twitter handles"
+    #     lists=x.split(" ")
+    #     for word in lists:
+    #         if word[0] == "@":
+    #             print(word)
+    list_of_tokens=[]
+    for text in list_of_tweets:
+        words=nltk.word_tokenize(text.lower())
+        S = set(stopwords.words('english'))
+        tokens_stop_removed = []
+        for token in words:
+            if not token.lower() in S:
+                tokens_stop_removed.append(token)
+        stop_removed = ' '.join(tokens_stop_removed)
+        summary_words = nltk.word_tokenize(stop_removed)
+        also_remove= ["rt", 'https', 'http']
+        word = [word for word in summary_words if word not in also_remove]
+        words=[word.lower() for word in word if word.isalpha()]
+        list_of_tokens.append(words)
+    flatList = [ item for elem in list_of_tokens for item in elem]
+    string_of_tweets=str(flatList)
+    return string_of_tweets
+
+def generate_word_cloud(string_of_tweets):
+    wordcloud_spam = WordCloud(background_color="white", max_font_size=50, max_words=50).generate(string_of_tweets)
+    plt.figure(figsize = (15,15))
+    plt.imshow(wordcloud_spam, interpolation='bilinear')
+    plt.axis("off")
+    plt.show()
 
 
 CACHE_DICT = open_cache()
@@ -193,4 +252,4 @@ baseurl = "https://api.twitter.com/1.1/search/tweets.json"
 latitude=None
 longitude=None
 
-print(compile_tweets(make_request_with_cache(baseurl,42.3268,-83.2936)))
+print(clean_tweets(compile_tweets(make_request_with_cache(baseurl,42.3268,-83.2936))))
