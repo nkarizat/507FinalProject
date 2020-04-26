@@ -51,7 +51,6 @@ def test_oauth():
     authentication_state = requests.get(url, auth=auth).json()
     return authentication_state
 
-
 def open_cache():
     ''' Opens the cache file if it exists and loads the JSON into
     the CACHE_DICT dictionary.
@@ -73,7 +72,6 @@ def open_cache():
     except:
         cache_dict = {}
     return cache_dict
-
 
 def save_cache(cache_dict):
     ''' Saves the current state of the cache to disk
@@ -117,8 +115,6 @@ def construct_unique_key(baseurl, params):
     unique_key = baseurl + connector + connector.join(param_strings)
     return unique_key
 
-
-
 def make_request(url,params):
     '''Make a request to the Web API using the baseurl and params
     
@@ -137,7 +133,6 @@ def make_request(url,params):
     '''
     response = requests.get(url, params=params, auth=oauth)
     return response.json()
-
 
 def make_request_with_cache(baseurl, lat,long, max_range='15mi', num_results=200):
     '''Check the cache for a saved result for this baseurl+params:values
@@ -229,7 +224,7 @@ def clean_tweets(list_of_tweets):
     for x in list_wo_handles:
         list_of_tweets_.append(' '.join(x))
 
-    #creates a list of tokens w/o stopwords, punctuation, as well as certain words like rt, https, http, etc. 
+    #creates a list of tokens w/o stopwords, punctuation, as well as certain words like rt, https, http, etc to clean things up as much as possible. 
     list_of_tokens=[]
     for text in list_of_tweets_:
         words=nltk.word_tokenize(text.lower())
@@ -245,22 +240,29 @@ def clean_tweets(list_of_tweets):
         words=[word.lower() for word in word if word.isalpha()]
         list_of_tokens.append(words)
     flatList = [ item for elem in list_of_tokens for item in elem]
-    string_of_tweets=str(flatList)
-    
-    return string_of_tweets
+    list_of_tweets=str(flatList)
 
-def generate_word_cloud(string_of_tweets):
-    wordcloud_spam = WordCloud(background_color="white", max_font_size=50, max_words=50).generate(string_of_tweets)
+    return list_of_tweets
+
+def generate_word_cloud(list_of_tweets):
+    ''' creates a word cloud from a string of tweets
+
+    Parameters
+    ----------
+    list_of_tweets: list
+        list of tweets that are tokenized
+
+    Returns
+    -------
+    a word cloud
+        a word cloud of the 50 most-frequently used tokens in the list of tweets
+
+    '''
+    wordcloud_spam = WordCloud(background_color="white", max_font_size=50, max_words=50).generate(list_of_tweets)
     plt.figure(figsize = (15,15))
     plt.imshow(wordcloud_spam, interpolation='bilinear')
     plt.axis("off")
     plt.show()
 
-
 CACHE_DICT = open_cache()
 baseurl = "https://api.twitter.com/1.1/search/tweets.json"
-
-latitude=None
-longitude=None
-
-print(clean_tweets(compile_tweets(make_request_with_cache(baseurl,42.3268,-83.2936))))
