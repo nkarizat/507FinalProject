@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF8"/>
+    <title>Michigan Foot Traffic: Results</title>
+
+<style>
+    h2{font-size:14px;
+     height:25px;}
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+</style>
+</head>
+<body>
+    <h1>Here are your results!</h1>
+    <h2>Included in your results are business that had foot traffic data collected for all 4 months.
+        If there is no data, there was no data collected given the criteria of your search!
+        </h2>
+    <table>
+        <tr>
+            <th>Unique ID</th>
+            <th>Business Name</th>
+            <th>Business Industry</th>
+            <th>City</th>
+            <th>December Visits</th>
+            <th>January Visits</th>
+            <th>February Visits</th>
+            <th>March Visits</th>
+        </tr>
+        {% for row in results %}
+        <tr>
+            <td>{{row[0]}}</td>
+            <td>{{row[1]}}</td>
+            <td>{{row[2]}}</td>
+            <td>{{row[3]}}</td>
+            <td>{{row[4]}}</td>
+            <td>{{row[5]}}</td>
+            <td>{{row[6]}}</td>
+            <td>{{row[7]}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+ 
+</body>
+</html>
