@@ -134,7 +134,7 @@ def make_request(url,params):
     response = requests.get(url, params=params, auth=oauth)
     return response.json()
 
-def make_request_with_cache(baseurl, lat,long, max_range='15mi', num_results=200):
+def make_request_with_cache(baseurl, hashtag, num_results=10000, lang="en"):
     '''Check the cache for a saved result for this baseurl+params:values
     combo. If the result is found, return it. Otherwise send a new 
     request, save it, then return it.
@@ -144,14 +144,8 @@ def make_request_with_cache(baseurl, lat,long, max_range='15mi', num_results=200
     baseurl: string
         The URL for the API endpoint
 
-    lat: float
-    - geographical center of search
-    
-    long:
-    -geographical center of search
-
-    max_range: float 
-    -search range in miles
+    hashtag: string
+    - hashtag search
 
     num_results: int
     - The number of tweets to retrieve
@@ -162,7 +156,7 @@ def make_request_with_cache(baseurl, lat,long, max_range='15mi', num_results=200
         the results of the query as a dictionary loaded from cache
         JSON
     '''
-    params={"q":'', "count":f'{num_results}', "geocode":f"{lat},{long},{max_range}"}
+    params={"q":f"{hashtag}", "count":f'{num_results}', "lang":f'{lang}'}
     request_key = construct_unique_key(baseurl, params)
     if request_key in CACHE_DICT.keys():
         print("cache hit!", request_key)
@@ -262,7 +256,7 @@ def generate_word_cloud(list_of_tweets):
     plt.figure(figsize = (15,15))
     plt.imshow(wordcloud_spam, interpolation='bilinear')
     plt.axis("off")
-    plt.show()
 
 CACHE_DICT = open_cache()
 baseurl = "https://api.twitter.com/1.1/search/tweets.json"
+hashtag="#COVID19"
