@@ -12,18 +12,18 @@ This program also allows users to see the most frequently used words in tweets t
 
 # Required Packages
 To operate this program, you need to use the following packages (and some of their built-in packages): 
-  sqlite3
-  requests_oauthlib
-  json
-  requests
-  nltk
-  collections
-  WordCloud
-  Matplotlib.pyplot
-  Flask
-  plotly.graph_objects
-  BytesIO
-  base64
+  1) sqlite3
+  2) requests_oauthlib
+  3) json
+  4) requests
+  5) nltk
+  6) collections
+  7) WordCloud
+  8) Matplotlib.pyplot
+  9) Flask
+  10) plotly.graph_objects
+  11) BytesIO
+  12) base64
 
 # Instructions
 Before beginning to try and operate this program, a user needs to have access to Twitter's API. From this API, they need to obtain a:
