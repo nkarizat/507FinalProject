@@ -44,49 +44,49 @@ Once this secrets.py file is created in the same directory as final.py and app.p
     
     final.py contains the program necessary to engage with the twitter API and produce the necessary input for generating a word cloud. It contains multiple functions, each serving an important purpose for aggregating, and cleaning tweets. The program contains several functions, but I will highlight the most important. 
     A) make_request_with_cache(baseurl, hashtag, num_results=10000, lang='en')
-      
-        Role: Check the cache for a saved result for this baseurl+params:values 
-        combo. If the result is found, return it. Otherwise send a new request, save it, then return it.
-        
-        Parameters
-        ----------
-        baseurl: string
-          The URL for the API endpoint
-        hashtag: string
-          hashtag search
-        
-        num_results: int
-          The number of tweets to retrieve
-        Returns
-        -------
-        dict
-          the results of the query as a dictionary loaded from cache JSON
- 
+
+          Role: Check the cache for a saved result for this baseurl+params:values 
+          combo. If the result is found, return it. Otherwise send a new request, save it, then return it.
+
+          Parameters
+          ----------
+          baseurl: string
+            The URL for the API endpoint
+          hashtag: string
+            hashtag search
+
+          num_results: int
+            The number of tweets to retrieve
+          Returns
+          -------
+          dict
+            the results of the query as a dictionary loaded from cache JSON
+
   B) compile_tweets(tweet_data)
     
-        Role: creates a list of tweets from dictionary
+          Role: creates a list of tweets from dictionary
 
-        Parameters
-        ----------
-        tweet_data: dict
-          Twitter data as a dictionary for a specific query
+          Parameters
+          ----------
+          tweet_data: dict
+            Twitter data as a dictionary for a specific query
 
-        Returns
-        -------
-        a list of strings of all the tweets in the tweet_data
-        
+          Returns
+          -------
+          a list of strings of all the tweets in the tweet_data
+
   C) clean_tweets(list_of_tweets)
     
-        Role: creates a list of tweets from dictionary
+          Role: creates a list of tweets from dictionary
 
-        Parameters
-        ----------
-        tweet_data: dict
-          Twitter data as a dictionary for a specific query
+          Parameters
+          ----------
+          tweet_data: dict
+            Twitter data as a dictionary for a specific query
 
-        Returns
-        -------
-        a list of cleaned tokens from all the tweets in the tweet_data
+          Returns
+          -------
+          a list of cleaned tokens from all the tweets in the tweet_data
 
 
 
