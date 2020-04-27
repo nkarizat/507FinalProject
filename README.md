@@ -180,7 +180,7 @@ Once this secrets.py file is created in the same directory as final.py and app.p
           2) Business Industry
     
   2) Word Cloud
-    They also have the option to view up to 100 of the most frequently used words in tweets containing #COVID19. 
+      -They also have the option to view up to 100 of the most frequently used words in tweets containing #COVID19. 
   
 # Demo Link: 
  
