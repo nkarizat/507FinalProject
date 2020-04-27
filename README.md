@@ -161,6 +161,8 @@ Once this secrets.py file is created in the same directory as final.py and app.p
                         )
  3) Twitter's API: The program accesses Twitter's API to pull 10,000 tweets in english that are tagged with #COVID19. When this is retrieved, it’s put into a JSON file. The program pulls the tweets necessary and caches them. Evidence of that is in my code, as well as in the terminal with my program printing “cache hit!” if the cache has already been created, or "cache miss!" if it needs to re-pull the tweets.
  
+ Note: I was told on Piazza that even though this is technically 2 data sources, that "Actually, we [the teaching team] had a discussion. We wanted to encourage you to go ahead with it as it is, especially given that it examines the impact of COVID19." For that reason, I didn't use additional data sources. 
+ 
 # Interaction and Presentation Options 
   1) Flask Tables and/or Plotly Graphs:
   A user has the option to present their foot traffic search results in HTML tables using Flask, as well as a Plotly graph.
