@@ -1,8 +1,42 @@
 from flask import Flask, render_template, request
 import sqlite3
 import plotly.graph_objects as go
+import final
+from final import clean_tweets, compile_tweets, generate_word_cloud, make_request_with_cache, open_cache
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+from io import BytesIO
+import base64
+
 
 app = Flask(__name__)
+
+def generate_word_cloud(list_of_tweets):
+    ''' creates a word cloud from a string of tweets
+
+    Parameters
+    ----------
+    list_of_tweets: list
+        list of tweets that are tokenized
+
+    Returns
+    -------
+    a word cloud
+        a word cloud of the 50 most-frequently used tokens in the list of tweets
+
+    '''
+    img = BytesIO()
+    wordcloud_spam = WordCloud(font_path=None, width = 800, height=800,  
+            max_words=100,  stopwords=None, background_color='whitesmoke', max_font_size=None, font_step=1, mode='RGB', 
+            collocations=True, colormap=None, normalize_plurals=True).generate(list_of_tweets)
+    plt.figure(figsize = (15,15))
+    plt.imshow(wordcloud_spam, interpolation="nearest", aspect="equal")
+    plt.axis("off")
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+    word_cloud_url = base64.b64encode(img.getvalue()).decode('utf8')
+    return word_cloud_url
 
 def get_results(sort_by, sort_order, source_city, source_industry):
     conn = sqlite3.connect('mi_foot_traffic.db')
@@ -108,46 +142,59 @@ def index():
 
 @app.route('/results', methods=['POST'])
 def bars():
-    sort_by = request.form['sort']
-    sort_order = request.form['dir']
-    source_city = request.form['City']
-    source_industry=request.form["Industry"]
-    results = get_results(sort_by, sort_order, source_city, source_industry)
-    plot_results = request.form.get('plot', False)
-    if (plot_results):
-        if sort_by == 'December Visits':
-            y_vals = [r[4] for r in results]
-        if sort_by == 'January Visits':
-            y_vals = [r[5] for r in results]
-        if sort_by == 'February Visits':
-            y_vals = [r[6] for r in results]
-        if sort_by == 'March Visits':
-            y_vals = [r[7] for r in results]
+        sort_by = request.form['sort']
+        sort_order = request.form['dir']
+        source_city = request.form['City']
+        source_industry=request.form["Industry"]
+        results = get_results(sort_by, sort_order, source_city, source_industry)
+        plot_results = request.form.get('plot', False)
+        if (plot_results):
+            if sort_by == 'December Visits':
+                y_vals = [r[4] for r in results]
+            if sort_by == 'January Visits':
+                y_vals = [r[5] for r in results]
+            if sort_by == 'February Visits':
+                y_vals = [r[6] for r in results]
+            if sort_by == 'March Visits':
+                y_vals = [r[7] for r in results]
 
-        x_vals = [r[1] for r in results]
-        bars_data = go.Bar(
-            x=x_vals,
-            y=y_vals
-        )
-        fig = go.Figure(data=bars_data)
-        fig.update_layout(
-            title=f"Michigan Foot Traffic for {sort_by}",
-            xaxis_title="Business Name",
-            yaxis_title="# of Visits",
-            font=dict(
-                family="Lato, monospace",
-                size=12,
-                color="#7f7f7f"
+            x_vals = [r[1] for r in results]
+            bars_data = go.Bar(
+                x=x_vals,
+                y=y_vals
             )
-        )
-        div = fig.to_html(full_html=False)
-        return render_template("plot.html", plot_div=div)
-    else:
-        return render_template('results.html', 
-        sort=sort_by, results=results,
-        city=source_city, industry=source_industry)
+            fig = go.Figure(data=bars_data)
+            fig.update_layout(
+                title=f"Michigan Foot Traffic for {sort_by}",
+                xaxis_title="Business Name",
+                yaxis_title="# of Visits",
+                font=dict(
+                    family="Lato, monospace",
+                    size=12,
+                    color="#7f7f7f"
+                )
+            )
+            div = fig.to_html(full_html=False)
+            return render_template("plot.html", plot_div=div)
+        elif request.form.get('table',False):
+            return render_template('results.html', 
+            sort=sort_by, results=results,
+            city=source_city, industry=source_industry)
+        else:
+            baseurl = "https://api.twitter.com/1.1/search/tweets.json"
+            hashtag="#COVID19"
+            cached=make_request_with_cache(baseurl,hashtag)
+            compiled=compile_tweets(cached)
+            cleaned=clean_tweets(compiled)
+            return render_template('wordcloud.html', word_cloud_url=generate_word_cloud(cleaned))
+    
 
 
+@app.route('/wordcloud', methods=['POST'])
+def word_cloud():
+    return render_template("wordcloud.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    
