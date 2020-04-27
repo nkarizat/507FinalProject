@@ -43,7 +43,8 @@ Once this secrets.py file is created in the same directory as final.py and app.p
 1) final.py
     
     final.py contains the program necessary to engage with the twitter API and produce the necessary input for generating a word cloud. It contains multiple functions, each serving an important purpose for aggregating, and cleaning tweets. The program contains several functions, but I will highlight the most important. 
-    A) make_request_with_cache(baseurl, hashtag, num_results=10000, lang='en')
+    
+  A) make_request_with_cache(baseurl, hashtag, num_results=10000, lang='en')
 
           Role: Check the cache for a saved result for this baseurl+params:values 
           combo. If the result is found, return it. Otherwise send a new request, save it, then return it.
