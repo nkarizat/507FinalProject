@@ -10,18 +10,10 @@ import secrets #file containing my twitter API
 import nltk
 import re
 from nltk.corpus import stopwords
-from collections import Counter
-from nltk.stem import PorterStemmer
-from nltk.stem import 	WordNetLemmatizer
-from nltk.corpus import wordnet as wn
-from nltk.stem.wordnet import WordNetLemmatizer
 from nltk import word_tokenize, pos_tag
 from collections import defaultdict
-import gensim
-import string
 import collections
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 
 CACHE_FILENAME = "tweets_cache.json"
