@@ -31,7 +31,7 @@ Before beginning to try and operate this program, a user needs to have access to
   3) TWITTER_ACCESS_TOKEN
   4) TWITTER_ACCESS_TOKEN_SECRET
  
-These need to be compiled into a file named secrets.py that will be imported into the final.py document. This document contains the program that engages with the Twitter API by aggregating tweets, cleaning them, and prepping them to be turned into a word cloud.
+These need to be compiled into a file named secrets.py that will be imported into the final.py document. This document contains the program that engages with the Twitter API by aggregating tweets, cleaning them, and prepping them to be turned into a word cloud. You also want to make sure you put secrets.py in the gitignore file, along with __pycache__. 
 
 Because the program relies on a successfuly created database, you want to make sure the mi_foot_traffic.db file is located in the directory before you run the program. If you would like to see how this file was created, you can view the code to create the database at mi_foot_traffic.sql. 
 
