@@ -161,28 +161,31 @@ Once this secrets.py file is created in the same directory as final.py and app.p
                           FOREIGN KEY("naics_code") REFERENCES "category"("naics_code")
                         )
  3) Twitter's API: The program accesses Twitter's API to pull 10,000 tweets in english that are tagged with #COVID19. When this is retrieved, it’s put into a JSON file. The program pulls the tweets necessary and caches them. Evidence of that is in my code, as well as in the terminal with my program printing “cache hit!” if the cache has already been created, or "cache miss!" if it needs to re-pull the tweets.
+ 
 # Interaction and Presentation Options 
   1) Flask Tables and/or Plotly Graphs:
   A user has the option to present their foot traffic search results in HTML tables using Flask, as well as a Plotly graph.
   
-    They have the option to sort by:
+  They have the option to sort by:
       1) December Visits
       2) January Visits
       3) February Visits
       4) March Visits
-
-    as well as to sort from: 
-      1) High to Low
-      2) Low to High
-
-    as well as to filter by: 
-      1) City
-      and/or
-      2) Business Industry
+      
+  as well as to sort from: 
+        1) High to Low
+        2) Low to High
+        
+  as well as to filter by: 
+        1) City
+        and/or
+        2) Business Industry
     
   2) Word Cloud
   
   They also have the option to view up to 100 of the most frequently used words in tweets containing #COVID19. 
+  
+  
 
  
  
