@@ -166,25 +166,21 @@ Once this secrets.py file is created in the same directory as final.py and app.p
 # Interaction and Presentation Options 
   1) Flask Tables and/or Plotly Graphs:
   A user has the option to present their foot traffic search results in HTML tables using Flask, as well as a Plotly graph.
-  
-  They have the option to sort by:
-      1) December Visits
-      2) January Visits
-      3) February Visits
-      4) March Visits
-      
-  as well as to sort from: 
-        1) High to Low
-        2) Low to High
-        
-  as well as to filter by: 
-        1) City
-        and/or
-        2) Business Industry
+    They have the option to sort by:
+        1) December Visits
+        2) January Visits
+        3) February Visits
+        4) March Visits
+    as well as to sort from: 
+          1) High to Low
+          2) Low to High
+    as well as to filter by: 
+          1) City
+          and/or
+          2) Business Industry
     
   2) Word Cloud
-  
-  They also have the option to view up to 100 of the most frequently used words in tweets containing #COVID19. 
+    They also have the option to view up to 100 of the most frequently used words in tweets containing #COVID19. 
   
 # Demo Link: 
  
