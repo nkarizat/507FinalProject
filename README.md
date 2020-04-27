@@ -93,6 +93,78 @@ Once this secrets.py file is created in the same directory as final.py and app.p
     
     app.py is where the flask app is created and ties in the various html tables in the templates directory! It contains a function that allows queries to be made in the mi_foot_traffic database, as well as a function that generates a word_cloud. app.py calls on functions located in final.py 
     
+# Data Sources
+
+  1) SafeGraph's Michigan Foot Traffic Data: I have been able to retrieve 4 CSV files from https://www.safegraph.com/ that show visitor information and foot traffic for all retail bakeries, baked goods stores, book stores and museums in Michigan! There are roughly 900 records for each month (Dec-March) and roughly 1,100 records for all collective places of interest. Each monthly record contains specific information regarding the number of visits for that month, as well as the number of unique visitors to a place of interest. 
+ 2) Michigan Foot Traffic DataBase: The data stored in the CSV files mentioned above was turned into a SQL database [contained in mi_foot_traffic.db]. The entity relationship diagram that shows the relationships between the several tables is located in the file of the repository called [Final Project 507 ERD.pdf]. Foreign Keys and Primary Keys, as well as the overall schema for this database is shown in the entity relationship diagram. However, below are the 'Create Table' statements for this database: 
+                           
+                           CREATE TABLE "category" (
+                          "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                          "naics_code"	INTEGER,
+                          "top_category"	TEXT,
+                          "sub_category"	TEXT
+                        )
+
+                        CREATE TABLE "december_visitor_data" (
+                          "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                          "safegraph_place_id"	TEXT,
+                          "date_range_start"	TEXT,
+                          "date_range_end"	TEXT,
+                          "raw_visit_counts"	INTEGER,
+                          "raw_visitor_counts"	INTEGER,
+                          FOREIGN KEY("safegraph_place_id") REFERENCES "places_of_interest"("safegraph_place_id")
+                        )
+
+                        CREATE TABLE "february_visitor_data" (
+                          "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                          "safegraph_place_id"	TEXT,
+                          "date_range_start"	TEXT,
+                          "date_range_end"	TEXT,
+                          "raw_visit_counts"	INTEGER,
+                          "raw_visitor_counts"	INTEGER,
+                          FOREIGN KEY("safegraph_place_id") REFERENCES "places_of_interest"("safegraph_place_id")
+                        )
+
+                        CREATE TABLE "january_visitor_data" (
+                          "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                          "safegraph_place_id"	TEXT,
+                          "date_range_start"	TEXT,
+                          "date_range_end"	TEXT,
+                          "raw_visit_counts"	INTEGER,
+                          "raw_visitor_counts"	INTEGER,
+                          FOREIGN KEY("safegraph_place_id") REFERENCES "places_of_interest"("safegraph_place_id")
+                        )
+
+                        CREATE TABLE "march_visitor_data" (
+                          "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                          "safegraph_place_id"	TEXT,
+                          "date_range_start"	TEXT,
+                          "date_range_end"	TEXT,
+                          "raw_visit_counts"	INTEGER,
+                          "raw_visitor_counts"	INTEGER,
+                          FOREIGN KEY("safegraph_place_id") REFERENCES "places_of_interest"("safegraph_place_id")
+                        )
+
+                        CREATE TABLE "places_of_interest" (
+                          "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                          "naics_code"	INTEGER,
+                          "safegraph_place_id"	TEXT,
+                          "location_name"	TEXT,
+                          "street_address"	TEXT,
+                          "city"	TEXT,
+                          "region"	TEXT,
+                          "postal_code"	INTEGER,
+                          "country"	TEXT,
+                          "phone"	TEXT,
+                          "latitude"	REAL,
+                          "longitude"	REAL,
+                          FOREIGN KEY("naics_code") REFERENCES "category"("naics_code")
+                        )
+ 3) Twitter's API: The program accesses Twitter's API to pull 10,000 tweets in english that are tagged with #COVID19. When this is retrieved, it’s put into a JSON file. The program pulls the tweets necessary and caches them. Evidence of that is in my code, as well as in the terminal with my program printing “cache hit!” if the cache has already been created, or "cache miss!" if it needs to re-pull the tweets.
+ 
+ 
+ 
+
     
 
 
