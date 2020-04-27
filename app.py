@@ -189,11 +189,6 @@ def bars():
             return render_template('wordcloud.html', word_cloud_url=generate_word_cloud(cleaned))
     
 
-
-@app.route('/wordcloud', methods=['POST'])
-def word_cloud():
-    return render_template("wordcloud.html")
-
 if __name__ == '__main__':
     app.run(debug=True)
 
